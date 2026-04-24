@@ -1,0 +1,2300 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Youmna Hesham — Architecture Portfolio</title>
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400;1,500;1,600&family=Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500;1,600&display=swap"
+      rel="stylesheet"
+    />
+    <script src="https://code.iconify.design/iconify-icon/1.0.7/iconify-icon.min.js"></script>
+    <style>
+      *,
+      *::before,
+      *::after {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+
+      :root {
+        --beige-50: #fdfbf7;
+        --beige-100: #f7f2eb;
+        --beige-200: #ede5d8;
+        --beige-300: #e0d4c3;
+        --beige-400: #c9baa5;
+        --brown-200: #c4a882;
+        --brown-300: #a69279;
+        --brown-400: #8b7355;
+        --brown-500: #6b5b4d;
+        --brown-600: #5a4a3c;
+        --brown-700: #3d3229;
+        --brown-800: #2c2420;
+        --brown-900: #1e1814;
+        --white: #ffffff;
+        --off-white: #fafaf8;
+        --text-primary: #2c2420;
+        --text-secondary: #6b5b4d;
+        --text-tertiary: #8b7355;
+        --text-light: #a69279;
+        --border-light: rgba(44, 36, 32, 0.08);
+        --border-medium: rgba(44, 36, 32, 0.15);
+      }
+
+      html {
+        scroll-behavior: smooth;
+      }
+
+      body {
+        font-family: "Inter", sans-serif;
+        background: var(--brown-900);
+        color: var(--text-primary);
+        overflow: hidden;
+        height: 100vh;
+        width: 100vw;
+      }
+
+      .presentation-container {
+        width: 100vw;
+        height: 100vh;
+        position: relative;
+        overflow: hidden;
+      }
+
+      .slide {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        opacity: 0;
+        visibility: hidden;
+        transition:
+          opacity 0.8s cubic-bezier(0.16, 1, 0.3, 1),
+          visibility 0.8s;
+        overflow-y: auto;
+        overflow-x: hidden;
+        scrollbar-width: thin;
+        scrollbar-color: var(--brown-300) transparent;
+      }
+
+      .slide::-webkit-scrollbar {
+        width: 4px;
+      }
+      .slide::-webkit-scrollbar-track {
+        background: transparent;
+      }
+      .slide::-webkit-scrollbar-thumb {
+        background: var(--brown-300);
+        border-radius: 2px;
+      }
+
+      .slide.active {
+        opacity: 1;
+        visibility: visible;
+      }
+
+      /* ===== NAVIGATION ===== */
+      .nav-bar {
+        position: fixed;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        z-index: 100;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: 16px 40px;
+        background: rgba(253, 251, 247, 0.92);
+        backdrop-filter: blur(16px);
+        border-top: 1px solid var(--border-light);
+      }
+
+      .nav-bar .nav-left {
+        display: flex;
+        align-items: center;
+        gap: 16px;
+      }
+
+      .nav-btn {
+        width: 40px;
+        height: 40px;
+        border-radius: 50%;
+        border: 1px solid var(--border-medium);
+        background: var(--white);
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        transition: all 0.25s ease;
+        color: var(--text-secondary);
+      }
+
+      .nav-btn:hover {
+        background: var(--brown-800);
+        color: var(--white);
+        border-color: var(--brown-800);
+      }
+
+      .slide-counter {
+        font-size: 13px;
+        font-weight: 500;
+        color: var(--text-tertiary);
+        letter-spacing: 0.05em;
+        min-width: 80px;
+        text-align: center;
+      }
+
+      .slide-counter span {
+        color: var(--text-primary);
+        font-weight: 600;
+      }
+
+      .progress-bar {
+        position: fixed;
+        top: 0;
+        left: 0;
+        height: 3px;
+        background: linear-gradient(90deg, var(--brown-400), var(--brown-200));
+        z-index: 101;
+        transition: width 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+        border-radius: 0 2px 2px 0;
+      }
+
+      .nav-bar .nav-right {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+      }
+
+      .nav-dot {
+        width: 8px;
+        height: 8px;
+        border-radius: 50%;
+        background: var(--beige-300);
+        cursor: pointer;
+        transition: all 0.3s ease;
+      }
+
+      .nav-dot.active {
+        background: var(--brown-500);
+        width: 24px;
+        border-radius: 4px;
+      }
+
+      /* ===== TYPOGRAPHY ===== */
+      .font-script {
+        font-family: "Playfair Display", serif;
+      }
+      .font-serif {
+        font-family: "Cormorant Garamond", serif;
+      }
+      .font-sans {
+        font-family: "Inter", sans-serif;
+      }
+
+      .label {
+        font-size: 10px;
+        font-weight: 700;
+        letter-spacing: 0.2em;
+        text-transform: uppercase;
+        color: var(--text-light);
+      }
+
+      .section-title {
+        font-family: "Cormorant Garamond", serif;
+        font-size: clamp(28px, 4vw, 44px);
+        font-weight: 400;
+        color: var(--text-primary);
+        line-height: 1.15;
+        letter-spacing: -0.01em;
+      }
+
+      .body-text {
+        font-size: 15px;
+        line-height: 1.75;
+        color: var(--text-secondary);
+        font-weight: 300;
+      }
+
+      /* ===== ARCHITECTURAL LINES ===== */
+      .arch-line {
+        position: absolute;
+        background: var(--brown-400);
+        opacity: 0.08;
+      }
+
+      .arch-line.vertical {
+        width: 1px;
+        height: 100%;
+      }
+      .arch-line.horizontal {
+        height: 1px;
+        width: 100%;
+      }
+
+      /* ===== COVER SPECIFIC ===== */
+      .slide-cover {
+        background: var(--beige-100);
+        display: flex;
+        align-items: stretch;
+      }
+
+      .cover-left {
+        flex: 1;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        padding: 80px 60px 80px 80px;
+        position: relative;
+        z-index: 2;
+      }
+
+      .cover-right {
+        flex: 0 0 42%;
+        position: relative;
+        overflow: hidden;
+      }
+
+      .cover-right img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        object-position: center 10%;
+      }
+
+      .cover-right::after {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 120px;
+        height: 100%;
+        background: linear-gradient(90deg, var(--beige-100), transparent);
+        z-index: 2;
+      }
+
+      .cover-name {
+        font-family: "Playfair Display", serif;
+        font-size: clamp(48px, 7vw, 96px);
+        font-weight: 500;
+        font-style: italic;
+        color: var(--brown-800);
+        line-height: 1;
+        letter-spacing: -0.02em;
+        margin-bottom: 16px;
+      }
+
+      .cover-title {
+        font-family: "Inter", sans-serif;
+        font-size: 14px;
+        font-weight: 500;
+        letter-spacing: 0.35em;
+        text-transform: uppercase;
+        color: var(--text-light);
+        margin-bottom: 48px;
+      }
+
+      .cover-line {
+        width: 60px;
+        height: 1px;
+        background: var(--brown-400);
+        margin-bottom: 24px;
+      }
+
+      .cover-tagline {
+        font-family: "Cormorant Garamond", serif;
+        font-size: 20px;
+        font-weight: 300;
+        font-style: italic;
+        color: var(--text-tertiary);
+        line-height: 1.6;
+        max-width: 340px;
+      }
+
+      .cover-bg-lines {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        pointer-events: none;
+        z-index: 0;
+      }
+
+      /* Portrait decorative frame */
+      .cover-portrait-frame {
+        position: absolute;
+        top: 40px;
+        right: 40px;
+        bottom: 40px;
+        left: 40px;
+        border: 1px solid rgba(196, 168, 130, 0.25);
+        z-index: 3;
+        pointer-events: none;
+      }
+
+      /* ===== INNER SLIDES ===== */
+      .slide-inner {
+        background: var(--beige-50);
+        min-height: 100%;
+        padding: 60px 80px 100px;
+      }
+
+      .slide-header {
+        display: flex;
+        align-items: flex-end;
+        justify-content: space-between;
+        margin-bottom: 48px;
+        padding-bottom: 24px;
+        border-bottom: 1px solid var(--border-light);
+      }
+
+      .slide-header-left .label {
+        margin-bottom: 8px;
+      }
+
+      .slide-number {
+        font-family: "Cormorant Garamond", serif;
+        font-size: 48px;
+        font-weight: 300;
+        color: var(--beige-300);
+        line-height: 1;
+      }
+
+      /* ===== GRIDS ===== */
+      .grid-2 {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 40px;
+      }
+
+      .grid-2-1 {
+        display: grid;
+        grid-template-columns: 2fr 1fr;
+        gap: 40px;
+      }
+
+      .grid-1-2 {
+        display: grid;
+        grid-template-columns: 1fr 2fr;
+        gap: 40px;
+      }
+
+      .grid-3 {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 28px;
+      }
+
+      .grid-4 {
+        display: grid;
+        grid-template-columns: repeat(4, 1fr);
+        gap: 24px;
+      }
+
+      /* ===== IMAGE CARDS ===== */
+      .img-card {
+        border-radius: 6px;
+        overflow: hidden;
+        position: relative;
+        background: var(--beige-200);
+      }
+
+      .img-card img {
+        width: 100%;
+        display: block;
+        object-fit: cover;
+        transition: transform 0.7s ease;
+      }
+
+      .img-card:hover img {
+        transform: scale(1.03);
+      }
+
+      .img-card.wide {
+        aspect-ratio: 16/9;
+      }
+      .img-card.square {
+        aspect-ratio: 1/1;
+      }
+      .img-card.portrait {
+        aspect-ratio: 3/4;
+      }
+      .img-card.arch {
+        aspect-ratio: 4/3;
+      }
+
+      .img-card .img-label {
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        padding: 12px 16px;
+        background: linear-gradient(transparent, rgba(30, 24, 20, 0.7));
+        color: white;
+        font-size: 11px;
+        font-weight: 500;
+        letter-spacing: 0.05em;
+      }
+
+      /* ===== INFO CARDS ===== */
+      .info-card {
+        background: var(--white);
+        border: 1px solid var(--border-light);
+        border-radius: 6px;
+        padding: 28px;
+      }
+
+      .info-card h4 {
+        font-family: "Cormorant Garamond", serif;
+        font-size: 20px;
+        font-weight: 500;
+        color: var(--text-primary);
+        margin-bottom: 12px;
+      }
+
+      .info-card p,
+      .info-card li {
+        font-size: 14px;
+        line-height: 1.7;
+        color: var(--text-secondary);
+        font-weight: 300;
+      }
+
+      .info-card ul {
+        list-style: none;
+        padding: 0;
+      }
+      .info-card li {
+        padding: 4px 0;
+        padding-left: 16px;
+        position: relative;
+      }
+      .info-card li::before {
+        content: "";
+        position: absolute;
+        left: 0;
+        top: 50%;
+        width: 5px;
+        height: 1px;
+        background: var(--brown-400);
+      }
+
+      /* ===== SKILL BARS ===== */
+      .skill-item {
+        margin-bottom: 16px;
+      }
+      .skill-item .skill-name {
+        display: flex;
+        justify-content: space-between;
+        font-size: 13px;
+        font-weight: 500;
+        color: var(--text-primary);
+        margin-bottom: 6px;
+      }
+      .skill-item .skill-bar {
+        height: 3px;
+        background: var(--beige-200);
+        border-radius: 2px;
+        overflow: hidden;
+      }
+      .skill-item .skill-fill {
+        height: 100%;
+        background: var(--brown-400);
+        border-radius: 2px;
+        transition: width 1s ease;
+      }
+
+      /* ===== SWOT ===== */
+      .swot-grid {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 16px;
+      }
+
+      .swot-item {
+        padding: 24px;
+        border-radius: 6px;
+        border: 1px solid var(--border-light);
+      }
+
+      .swot-item.strengths {
+        background: rgba(139, 115, 85, 0.06);
+        border-color: rgba(139, 115, 85, 0.15);
+      }
+      .swot-item.weaknesses {
+        background: rgba(196, 168, 130, 0.06);
+        border-color: rgba(196, 168, 130, 0.2);
+      }
+      .swot-item.opportunities {
+        background: rgba(107, 91, 77, 0.06);
+        border-color: rgba(107, 91, 77, 0.15);
+      }
+      .swot-item.threats {
+        background: rgba(61, 50, 41, 0.04);
+        border-color: rgba(61, 50, 41, 0.12);
+      }
+
+      .swot-item h5 {
+        font-size: 11px;
+        font-weight: 700;
+        letter-spacing: 0.15em;
+        text-transform: uppercase;
+        margin-bottom: 10px;
+      }
+
+      .swot-item.strengths h5 {
+        color: var(--brown-500);
+      }
+      .swot-item.weaknesses h5 {
+        color: var(--brown-300);
+      }
+      .swot-item.opportunities h5 {
+        color: var(--brown-600);
+      }
+      .swot-item.threats h5 {
+        color: var(--brown-700);
+      }
+
+      .swot-item li {
+        font-size: 13px;
+        line-height: 1.65;
+        color: var(--text-secondary);
+        font-weight: 300;
+        list-style: none;
+        padding: 3px 0;
+      }
+
+      /* ===== PROJECT DIVIDER ===== */
+      .project-divider {
+        padding: 80px;
+        background: var(--brown-800);
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        text-align: center;
+        min-height: 100%;
+      }
+
+      .project-divider .label {
+        color: var(--brown-300);
+        margin-bottom: 16px;
+      }
+
+      .project-divider h1 {
+        font-family: "Playfair Display", serif;
+        font-size: clamp(40px, 6vw, 72px);
+        font-weight: 500;
+        font-style: italic;
+        color: var(--beige-200);
+        line-height: 1.1;
+        margin-bottom: 20px;
+      }
+
+      .project-divider p {
+        font-family: "Cormorant Garamond", serif;
+        font-size: 20px;
+        font-weight: 300;
+        color: var(--brown-300);
+        max-width: 500px;
+        line-height: 1.6;
+      }
+
+      .project-divider .divider-line {
+        width: 40px;
+        height: 1px;
+        background: var(--brown-400);
+        margin: 24px 0;
+      }
+
+      /* ===== TIMELINE ===== */
+      .timeline-item {
+        display: flex;
+        gap: 20px;
+        padding: 20px 0;
+        border-bottom: 1px solid var(--border-light);
+      }
+
+      .timeline-item:last-child {
+        border-bottom: none;
+      }
+
+      .timeline-year {
+        font-family: "Cormorant Garamond", serif;
+        font-size: 18px;
+        font-weight: 500;
+        color: var(--brown-400);
+        min-width: 100px;
+        padding-top: 2px;
+      }
+
+      .timeline-content h4 {
+        font-size: 15px;
+        font-weight: 600;
+        color: var(--text-primary);
+        margin-bottom: 4px;
+      }
+
+      .timeline-content p {
+        font-size: 13px;
+        color: var(--text-tertiary);
+        font-weight: 300;
+      }
+
+      /* ===== CONCEPT CARD ===== */
+      .concept-card {
+        background: var(--white);
+        border: 1px solid var(--border-light);
+        border-radius: 8px;
+        padding: 36px;
+        position: relative;
+        overflow: hidden;
+      }
+
+      .concept-card::before {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 3px;
+        height: 100%;
+        background: var(--brown-400);
+      }
+
+      .concept-card h3 {
+        font-family: "Cormorant Garamond", serif;
+        font-size: 24px;
+        font-weight: 500;
+        color: var(--text-primary);
+        margin-bottom: 16px;
+      }
+
+      .concept-card p {
+        font-size: 15px;
+        line-height: 1.8;
+        color: var(--text-secondary);
+        font-weight: 300;
+      }
+
+      /* ===== RENDER FULL ===== */
+      .render-full {
+        position: relative;
+        border-radius: 8px;
+        overflow: hidden;
+        margin-bottom: 40px;
+      }
+
+      .render-full img {
+        width: 100%;
+        aspect-ratio: 21/9;
+        object-fit: cover;
+        display: block;
+      }
+
+      .render-full .render-overlay {
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        padding: 40px;
+        background: linear-gradient(transparent, rgba(30, 24, 20, 0.75));
+        color: white;
+      }
+
+      .render-full .render-overlay h4 {
+        font-family: "Cormorant Garamond", serif;
+        font-size: 22px;
+        font-weight: 400;
+        margin-bottom: 4px;
+      }
+
+      .render-full .render-overlay p {
+        font-size: 13px;
+        opacity: 0.7;
+        font-weight: 300;
+      }
+
+      /* ===== STAT ROW ===== */
+      .stat-row {
+        display: flex;
+        gap: 40px;
+        padding: 32px 0;
+        border-top: 1px solid var(--border-light);
+        border-bottom: 1px solid var(--border-light);
+        margin-bottom: 40px;
+      }
+
+      .stat-item .stat-value {
+        font-family: "Cormorant Garamond", serif;
+        font-size: 36px;
+        font-weight: 400;
+        color: var(--brown-500);
+        line-height: 1;
+      }
+
+      .stat-item .stat-label {
+        font-size: 11px;
+        font-weight: 500;
+        letter-spacing: 0.1em;
+        text-transform: uppercase;
+        color: var(--text-light);
+        margin-top: 6px;
+      }
+
+      /* ===== LANG TAGS ===== */
+      .lang-tags {
+        display: flex;
+        gap: 10px;
+        flex-wrap: wrap;
+      }
+
+      .lang-tag {
+        padding: 8px 18px;
+        border-radius: 100px;
+        border: 1px solid var(--border-medium);
+        font-size: 13px;
+        font-weight: 400;
+        color: var(--text-secondary);
+        transition: all 0.2s;
+      }
+
+      .lang-tag strong {
+        font-weight: 600;
+        color: var(--text-primary);
+        margin-left: 6px;
+      }
+
+      /* ===== PLAN CARD ===== */
+      .plan-card {
+        background: var(--white);
+        border: 1px solid var(--border-light);
+        border-radius: 6px;
+        overflow: hidden;
+        transition: box-shadow 0.3s;
+      }
+
+      .plan-card:hover {
+        box-shadow: 0 8px 30px rgba(44, 36, 32, 0.08);
+      }
+
+      .plan-card .plan-img {
+        aspect-ratio: 4/3;
+        overflow: hidden;
+        background: var(--beige-200);
+      }
+
+      .plan-card .plan-img img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        filter: grayscale(20%);
+        transition: filter 0.3s;
+      }
+
+      .plan-card:hover .plan-img img {
+        filter: grayscale(0%);
+      }
+
+      .plan-card .plan-info {
+        padding: 16px 20px;
+      }
+
+      .plan-card .plan-info h5 {
+        font-size: 14px;
+        font-weight: 600;
+        color: var(--text-primary);
+        margin-bottom: 4px;
+      }
+
+      .plan-card .plan-info p {
+        font-size: 12px;
+        color: var(--text-light);
+        font-weight: 300;
+      }
+
+      /* ===== KEYBOARD HINT ===== */
+      .keyboard-hint {
+        position: fixed;
+        bottom: 72px;
+        right: 40px;
+        z-index: 99;
+        display: flex;
+        gap: 6px;
+        align-items: center;
+        font-size: 11px;
+        color: var(--text-light);
+        opacity: 0.6;
+        transition: opacity 0.3s;
+      }
+
+      .keyboard-hint:hover {
+        opacity: 1;
+      }
+
+      .key-icon {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        width: 22px;
+        height: 22px;
+        border: 1px solid var(--border-medium);
+        border-radius: 4px;
+        font-size: 10px;
+        background: var(--white);
+      }
+
+      @media (max-width: 1024px) {
+        .slide-inner {
+          padding: 40px 32px 100px;
+        }
+        .cover-left {
+          padding: 40px 32px;
+        }
+        .grid-2,
+        .grid-2-1,
+        .grid-1-2 {
+          grid-template-columns: 1fr;
+          gap: 24px;
+        }
+        .grid-3 {
+          grid-template-columns: 1fr 1fr;
+        }
+        .grid-4 {
+          grid-template-columns: 1fr 1fr;
+        }
+        .stat-row {
+          flex-wrap: wrap;
+          gap: 24px;
+        }
+      }
+
+      @media (max-width: 768px) {
+        .slide-cover {
+          flex-direction: column;
+        }
+        .cover-right {
+          flex: 0 0 40vh;
+        }
+        .cover-right::after {
+          display: none;
+        }
+        .cover-left {
+          padding: 32px 24px;
+        }
+        .slide-inner {
+          padding: 32px 20px 100px;
+        }
+        .nav-bar {
+          padding: 12px 20px;
+        }
+        .grid-3,
+        .grid-4 {
+          grid-template-columns: 1fr;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="presentation-container" id="presentation">
+      <div class="progress-bar" id="progressBar" style="width: 0%"></div>
+
+      <!-- ==================== SLIDE 01: COVER ==================== -->
+      <div class="slide slide-cover active" data-slide="0">
+        <div class="cover-bg-lines">
+          <div
+            class="arch-line vertical"
+            style="left: 25%; top: 0; opacity: 0.04"
+          ></div>
+          <div
+            class="arch-line vertical"
+            style="left: 50%; top: 0; opacity: 0.04"
+          ></div>
+          <div
+            class="arch-line vertical"
+            style="left: 75%; top: 0; opacity: 0.04"
+          ></div>
+          <div
+            class="arch-line horizontal"
+            style="top: 30%; left: 0; opacity: 0.04"
+          ></div>
+          <div
+            class="arch-line horizontal"
+            style="top: 70%; left: 0; opacity: 0.04"
+          ></div>
+          <svg
+            style="
+              position: absolute;
+              top: 0;
+              left: 0;
+              width: 100%;
+              height: 100%;
+              opacity: 0.03;
+            "
+            viewBox="0 0 1000 800"
+          >
+            <line
+              x1="0"
+              y1="800"
+              x2="580"
+              y2="0"
+              stroke="#8B7355"
+              stroke-width="1"
+            />
+            <line
+              x1="0"
+              y1="800"
+              x2="620"
+              y2="0"
+              stroke="#8B7355"
+              stroke-width="0.5"
+            />
+          </svg>
+        </div>
+
+        <div class="cover-left">
+          <div
+            class="label"
+            style="margin-bottom: 32px; color: var(--brown-300)"
+          >
+            Architecture Portfolio
+          </div>
+          <div class="cover-line"></div>
+          <h1 class="cover-name">Youmna<br />Hesham</h1>
+          <div class="cover-title">Architecture Portfolio</div>
+          <p class="cover-tagline">
+            Designing spaces that embody purpose,<br />
+            craft, and a deep respect for context
+          </p>
+        </div>
+
+        <div class="cover-right">
+          <img
+            src="https://z-cdn-media.chatglm.cn/files/8e616606-eafc-4f9c-b2d4-00a386fc23ed.png?auth_key=1877046167-58c4ccb33b3344ec93a107588410f743-0-3f5d8e44436b3cd5f5f7df04ce43e7b7"
+            alt="Youmna Hesham — Architect"
+          />
+          <div class="cover-portrait-frame"></div>
+        </div>
+      </div>
+
+      <!-- ==================== SLIDE 02: ABOUT ME ==================== -->
+      <div class="slide slide-inner" data-slide="1">
+        <div class="slide-header">
+          <div class="slide-header-left">
+            <div class="label">01 / Introduction</div>
+            <h2 class="section-title">About Me</h2>
+          </div>
+          <div class="slide-number">01</div>
+        </div>
+
+        <div class="grid-2" style="margin-bottom: 48px">
+          <div>
+            <div class="concept-card" style="margin-bottom: 28px">
+              <h3>Professional Profile</h3>
+              <p>
+                A driven and detail-oriented architecture graduate with a strong
+                foundation in architectural design, urban planning, and
+                technical drafting. Passionate about creating context-sensitive
+                spaces that balance functionality with aesthetic integrity.
+                Experienced in developing comprehensive design packages from
+                initial concept through construction documentation, with a keen
+                interest in sustainable design strategies and community-centered
+                architecture.
+              </p>
+            </div>
+
+            <div class="info-card">
+              <h4>Education</h4>
+              <div class="timeline-item" style="border: none; padding-top: 8px">
+                <div class="timeline-year">2020 — 2025</div>
+                <div class="timeline-content">
+                  <h4>Bachelor of Architecture</h4>
+                  <p>
+                    Comprehensive architectural curriculum encompassing design
+                    studios, building technology, urban design, theory, and
+                    professional practice
+                  </p>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div>
+            <div class="info-card" style="margin-bottom: 24px">
+              <h4>Internships</h4>
+              <div class="timeline-item">
+                <div class="timeline-year">2024</div>
+                <div class="timeline-content">
+                  <h4>Architectural Intern — Studio Practice</h4>
+                  <p>
+                    Contributed to residential and mixed-use projects; developed
+                    technical drawings, 3D models, and presentation materials
+                  </p>
+                </div>
+              </div>
+              <div class="timeline-item">
+                <div class="timeline-year">2023</div>
+                <div class="timeline-content">
+                  <h4>Design Intern — Architectural Firm</h4>
+                  <p>
+                    Supported schematic design phases and site analysis
+                    documentation; assisted in client presentation packages
+                  </p>
+                </div>
+              </div>
+            </div>
+
+            <div class="info-card" style="margin-bottom: 24px">
+              <h4>Languages</h4>
+              <div class="lang-tags" style="margin-top: 12px">
+                <span class="lang-tag">Arabic <strong>Native</strong></span>
+                <span class="lang-tag">English <strong>Fluent</strong></span>
+                <span class="lang-tag"
+                  >French <strong>Intermediate</strong></span
+                >
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="info-card">
+          <h4 style="margin-bottom: 20px">Software Proficiency</h4>
+          <div
+            style="display: grid; grid-template-columns: 1fr 1fr; gap: 0 48px"
+          >
+            <div>
+              <div class="skill-item">
+                <div class="skill-name">
+                  <span>AutoCAD</span><span>Advanced</span>
+                </div>
+                <div class="skill-bar">
+                  <div class="skill-fill" style="width: 92%"></div>
+                </div>
+              </div>
+              <div class="skill-item">
+                <div class="skill-name">
+                  <span>Revit</span><span>Advanced</span>
+                </div>
+                <div class="skill-bar">
+                  <div class="skill-fill" style="width: 88%"></div>
+                </div>
+              </div>
+              <div class="skill-item">
+                <div class="skill-name">
+                  <span>Rhino + Grasshopper</span><span>Advanced</span>
+                </div>
+                <div class="skill-bar">
+                  <div class="skill-fill" style="width: 85%"></div>
+                </div>
+              </div>
+              <div class="skill-item">
+                <div class="skill-name">
+                  <span>SketchUp</span><span>Advanced</span>
+                </div>
+                <div class="skill-bar">
+                  <div class="skill-fill" style="width: 90%"></div>
+                </div>
+              </div>
+              <div class="skill-item">
+                <div class="skill-name">
+                  <span>Lumion</span><span>Intermediate</span>
+                </div>
+                <div class="skill-bar">
+                  <div class="skill-fill" style="width: 78%"></div>
+                </div>
+              </div>
+            </div>
+            <div>
+              <div class="skill-item">
+                <div class="skill-name">
+                  <span>V-Ray</span><span>Advanced</span>
+                </div>
+                <div class="skill-bar">
+                  <div class="skill-fill" style="width: 85%"></div>
+                </div>
+              </div>
+              <div class="skill-item">
+                <div class="skill-name">
+                  <span>Adobe Photoshop</span><span>Advanced</span>
+                </div>
+                <div class="skill-bar">
+                  <div class="skill-fill" style="width: 90%"></div>
+                </div>
+              </div>
+              <div class="skill-item">
+                <div class="skill-name">
+                  <span>Adobe Illustrator</span><span>Advanced</span>
+                </div>
+                <div class="skill-bar">
+                  <div class="skill-fill" style="width: 88%"></div>
+                </div>
+              </div>
+              <div class="skill-item">
+                <div class="skill-name">
+                  <span>Adobe InDesign</span><span>Intermediate</span>
+                </div>
+                <div class="skill-bar">
+                  <div class="skill-fill" style="width: 75%"></div>
+                </div>
+              </div>
+              <div class="skill-item">
+                <div class="skill-name">
+                  <span>Microsoft Office</span><span>Advanced</span>
+                </div>
+                <div class="skill-bar">
+                  <div class="skill-fill" style="width: 88%"></div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ==================== SLIDE 03: PROJECT 1 DIVIDER ==================== -->
+      <div class="slide project-divider" data-slide="2">
+        <div class="label">Project 01</div>
+        <h1>Arkan<br />Research Center</h1>
+        <div class="divider-line"></div>
+        <p>
+          A visionary research facility designed to foster innovation through
+          the seamless integration of architecture, landscape, and scientific
+          pursuit
+        </p>
+      </div>
+
+      <!-- ==================== SLIDE 04: ARKAN OVERVIEW ==================== -->
+      <div class="slide slide-inner" data-slide="3">
+        <div class="slide-header">
+          <div class="slide-header-left">
+            <div class="label">Project 01 — Arkan Research Center</div>
+            <h2 class="section-title">Project Overview</h2>
+          </div>
+          <div class="slide-number">02</div>
+        </div>
+
+        <div class="stat-row">
+          <div class="stat-item">
+            <div class="stat-value">12,500</div>
+            <div class="stat-label">Total Area (m²)</div>
+          </div>
+          <div class="stat-item">
+            <div class="stat-value">3</div>
+            <div class="stat-label">Building Levels</div>
+          </div>
+          <div class="stat-item">
+            <div class="stat-value">Research</div>
+            <div class="stat-label">Primary Function</div>
+          </div>
+          <div class="stat-item">
+            <div class="stat-value">2024</div>
+            <div class="stat-label">Design Year</div>
+          </div>
+        </div>
+
+        <div class="grid-2" style="margin-bottom: 40px">
+          <div>
+            <div class="render-full" style="margin-bottom: 0">
+              <img
+                src="https://picsum.photos/seed/arkan-research-exterior/1200/500.jpg"
+                alt="Arkan Research Center — Exterior Render"
+                style="aspect-ratio: 21/9"
+              />
+              <div class="render-overlay">
+                <h4>Main Façade — Southern Elevation</h4>
+                <p>Where architecture meets the landscape</p>
+              </div>
+            </div>
+          </div>
+          <div>
+            <div class="concept-card" style="height: 100%">
+              <h3>Project Brief</h3>
+              <p>
+                The Arkan Research Center is conceived as a pioneering facility
+                that bridges the gap between advanced scientific research and
+                the built environment. Located in a semi-arid context, the
+                project addresses the need for a collaborative, future-ready
+                research campus that prioritizes both environmental performance
+                and human well-being.
+              </p>
+              <br />
+              <p>
+                The program encompasses specialized laboratories, flexible
+                co-working zones, seminar rooms, administrative offices, and
+                public exhibition areas — all organized around a central atrium
+                that acts as the spatial and social heart of the complex.
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ==================== SLIDE 05: ARKAN CONCEPT & VISION ==================== -->
+      <div class="slide slide-inner" data-slide="4">
+        <div class="slide-header">
+          <div class="slide-header-left">
+            <div class="label">Project 01 — Arkan Research Center</div>
+            <h2 class="section-title">Concept & Vision</h2>
+          </div>
+          <div class="slide-number">03</div>
+        </div>
+
+        <div class="grid-2" style="margin-bottom: 40px">
+          <div class="concept-card">
+            <h3>Design Concept</h3>
+            <p>
+              The conceptual framework draws from the notion of "permeable
+              boundaries" — the idea that a research center should not isolate
+              its occupants but rather create a continuous dialogue between
+              interior program and exterior landscape. The building's massing is
+              carved and fragmented to allow natural light, ventilation, and
+              visual connections to penetrate deep into the plan.
+            </p>
+            <br />
+            <p>
+              Structural rhythm and material honesty serve as the primary design
+              drivers. Exposed concrete, weathered steel, and floor-to-ceiling
+              glazing establish a tactile and visual language that reflects the
+              precision of scientific inquiry while maintaining warmth and
+              spatial generosity.
+            </p>
+          </div>
+          <div class="concept-card">
+            <h3>Architectural Vision</h3>
+            <p>
+              The vision for Arkan Research Center transcends conventional
+              laboratory design. It aspires to create an environment where
+              architecture itself becomes an instrument of discovery — where
+              spatial qualities such as light, proportion, and materiality
+              stimulate creative thinking and intellectual exchange.
+            </p>
+            <br />
+            <p>
+              The interplay of solid and void, transparency and opacity,
+              establishes a dynamic architectural narrative that evolves as
+              occupants move through the building. Each space is calibrated to
+              its specific function while contributing to the holistic
+              experience of the complex.
+            </p>
+          </div>
+        </div>
+
+        <div class="grid-3">
+          <div class="img-card arch">
+            <img
+              src="https://picsum.photos/seed/arkan-concept-sketch/600/450.jpg"
+              alt="Concept Sketch"
+            />
+            <div class="img-label">Concept Diagram — Permeable Boundaries</div>
+          </div>
+          <div class="img-card arch">
+            <img
+              src="https://picsum.photos/seed/arkan-massing-study/600/450.jpg"
+              alt="Massing Study"
+            />
+            <div class="img-label">Massing Evolution Study</div>
+          </div>
+          <div class="img-card arch">
+            <img
+              src="https://picsum.photos/seed/arkan-material-palette/600/450.jpg"
+              alt="Material Palette"
+            />
+            <div class="img-label">Material & Tectonic Language</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ==================== SLIDE 06: SITE ANALYSIS & SWOT ==================== -->
+      <div class="slide slide-inner" data-slide="5">
+        <div class="slide-header">
+          <div class="slide-header-left">
+            <div class="label">Project 01 — Arkan Research Center</div>
+            <h2 class="section-title">Site Analysis & SWOT</h2>
+          </div>
+          <div class="slide-number">04</div>
+        </div>
+
+        <div class="grid-2" style="margin-bottom: 40px">
+          <div>
+            <div class="img-card wide" style="margin-bottom: 20px">
+              <img
+                src="https://picsum.photos/seed/arkan-site-aerial/800/450.jpg"
+                alt="Site Aerial View"
+              />
+              <div class="img-label">
+                Aerial Context — Site Boundaries & Immediate Surroundings
+              </div>
+            </div>
+            <div class="concept-card">
+              <h3>Site Context</h3>
+              <p>
+                The site is situated within an emerging academic district,
+                characterized by low-to-medium density institutional buildings
+                and open landscape buffers. The terrain is predominantly flat
+                with a gentle topographic shift of 2.5 meters across the site
+                from north to south, informing natural drainage strategies and
+                sectional design decisions.
+              </p>
+            </div>
+          </div>
+          <div>
+            <div class="info-card" style="margin-bottom: 16px">
+              <h4>Key Site Parameters</h4>
+              <ul>
+                <li>Site area: 8,200 m²</li>
+                <li>Zoning: Institutional / Research</li>
+                <li>Setbacks: Front 10m, Sides 5m, Rear 8m</li>
+                <li>Max height: 18m</li>
+                <li>FAR: 1.5</li>
+                <li>Primary access: Southern road</li>
+                <li>Climate: Semi-arid, hot summers, mild winters</li>
+                <li>Prevailing wind: Northwest</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+
+        <div class="swot-grid">
+          <div class="swot-item strengths">
+            <h5>Strengths</h5>
+            <ul>
+              <li>Prominent location within academic precinct</li>
+              <li>Generous site area allowing spatial articulation</li>
+              <li>Strong solar orientation potential for passive strategies</li>
+              <li>Proximity to university infrastructure and talent pool</li>
+            </ul>
+          </div>
+          <div class="swot-item weaknesses">
+            <h5>Weaknesses</h5>
+            <ul>
+              <li>Harsh summer climate demanding extensive shading</li>
+              <li>Limited public transport connectivity</li>
+              <li>Flat terrain offering minimal natural character</li>
+              <li>Adjacent undeveloped parcels creating uncertainty</li>
+            </ul>
+          </div>
+          <div class="swot-item opportunities">
+            <h5>Opportunities</h5>
+            <ul>
+              <li>
+                Establish a precedent for sustainable research architecture
+              </li>
+              <li>Leverage topographic shift for semi-basement strategies</li>
+              <li>Create a public research hub engaging the community</li>
+              <li>Integrate renewable energy as a visible design feature</li>
+            </ul>
+          </div>
+          <div class="swot-item threats">
+            <h5>Threats</h5>
+            <ul>
+              <li>
+                Future adjacent development may compromise views and light
+              </li>
+              <li>
+                Budget constraints limiting material and system aspirations
+              </li>
+              <li>Dust and sand exposure affecting façade longevity</li>
+              <li>Evolving research needs requiring long-term flexibility</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+
+      <!-- ==================== SLIDE 07: DESIGN DEVELOPMENT ==================== -->
+      <div class="slide slide-inner" data-slide="6">
+        <div class="slide-header">
+          <div class="slide-header-left">
+            <div class="label">Project 01 — Arkan Research Center</div>
+            <h2 class="section-title">Design Development</h2>
+          </div>
+          <div class="slide-number">05</div>
+        </div>
+
+        <div class="render-full" style="margin-bottom: 40px">
+          <img
+            src="https://picsum.photos/seed/arkan-design-dev/1400/500.jpg"
+            alt="Design Development Render"
+            style="aspect-ratio: 21/9"
+          />
+          <div class="render-overlay">
+            <h4>Design Development — Interior Atrium View</h4>
+            <p>
+              Central void connecting all levels with controlled natural light
+            </p>
+          </div>
+        </div>
+
+        <div class="grid-3" style="margin-bottom: 40px">
+          <div class="concept-card">
+            <h3>Spatial Organization</h3>
+            <p>
+              The plan is structured around a longitudinal atrium that bisects
+              the building mass, creating two interconnected wings. The eastern
+              wing houses public and administrative functions, while the western
+              wing accommodates research laboratories and controlled
+              environments.
+            </p>
+          </div>
+          <div class="concept-card">
+            <h3>Circulation Strategy</h3>
+            <p>
+              A primary circulation spine runs along the atrium, with secondary
+              corridors branching into each wing. Vertical circulation is
+              concentrated at three nodes — the main entrance lobby, a mid-point
+              core, and a service core — ensuring efficient movement and clear
+              wayfinding.
+            </p>
+          </div>
+          <div class="concept-card">
+            <h3>Environmental Response</h3>
+            <p>
+              The southern façade employs a brise-soleil system with horizontal
+              louvers calibrated to solar angles, reducing heat gain by 40%
+              while preserving views. The northern elevation maximizes glazing
+              for diffuse daylight. Green roofs and permeable paving manage
+              stormwater on-site.
+            </p>
+          </div>
+        </div>
+
+        <div class="grid-2">
+          <div class="img-card arch">
+            <img
+              src="https://picsum.photos/seed/arkan-circulation-diagram/700/525.jpg"
+              alt="Circulation Diagram"
+            />
+            <div class="img-label">
+              Circulation & Spatial Relationship Diagram
+            </div>
+          </div>
+          <div class="img-card arch">
+            <img
+              src="https://picsum.photos/seed/arkan-facade-study/700/525.jpg"
+              alt="Facade Study"
+            />
+            <div class="img-label">Façade Modulation & Solar Analysis</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ==================== SLIDE 08: PLANS ==================== -->
+      <div class="slide slide-inner" data-slide="7">
+        <div class="slide-header">
+          <div class="slide-header-left">
+            <div class="label">Project 01 — Arkan Research Center</div>
+            <h2 class="section-title">Architectural Plans</h2>
+          </div>
+          <div class="slide-number">06</div>
+        </div>
+
+        <div class="grid-2" style="margin-bottom: 32px">
+          <div class="plan-card">
+            <div class="plan-img">
+              <img
+                src="https://picsum.photos/seed/arkan-ground-plan/700/525.jpg"
+                alt="Ground Floor Plan"
+              />
+            </div>
+            <div class="plan-info">
+              <h5>Ground Floor Plan</h5>
+              <p>
+                Main entrance lobby, public exhibition hall, administrative
+                suite, seminar rooms, and service areas — 4,800 m²
+              </p>
+            </div>
+          </div>
+          <div class="plan-card">
+            <div class="plan-img">
+              <img
+                src="https://picsum.photos/seed/arkan-first-plan/700/525.jpg"
+                alt="First Floor Plan"
+              />
+            </div>
+            <div class="plan-info">
+              <h5>First Floor Plan</h5>
+              <p>
+                Research laboratories, co-working zones, break rooms, and bridge
+                connection across the atrium — 4,200 m²
+              </p>
+            </div>
+          </div>
+        </div>
+
+        <div class="grid-2">
+          <div class="plan-card">
+            <div class="plan-img">
+              <img
+                src="https://picsum.photos/seed/arkan-second-plan/700/525.jpg"
+                alt="Second Floor Plan"
+              />
+            </div>
+            <div class="plan-info">
+              <h5>Second Floor Plan</h5>
+              <p>
+                Specialized labs, director's office, boardroom, rooftop terrace
+                access, and mechanical penthouse — 3,500 m²
+              </p>
+            </div>
+          </div>
+          <div class="plan-card">
+            <div class="plan-img">
+              <img
+                src="https://picsum.photos/seed/arkan-roof-plan/700/525.jpg"
+                alt="Roof Plan"
+              />
+            </div>
+            <div class="plan-info">
+              <h5>Roof Plan</h5>
+              <p>
+                Green roof zones, PV array layout, mechanical equipment
+                screening, and accessible terrace — 2,800 m²
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ==================== SLIDE 09: SECTIONS & ELEVATIONS ==================== -->
+      <div class="slide slide-inner" data-slide="8">
+        <div class="slide-header">
+          <div class="slide-header-left">
+            <div class="label">Project 01 — Arkan Research Center</div>
+            <h2 class="section-title">Sections & Elevations</h2>
+          </div>
+          <div class="slide-number">07</div>
+        </div>
+
+        <div class="img-card wide" style="margin-bottom: 32px">
+          <img
+            src="https://picsum.photos/seed/arkan-section-a/1400/500.jpg"
+            alt="Section A-A"
+            style="aspect-ratio: 21/9; object-fit: cover"
+          />
+          <div class="img-label">
+            Longitudinal Section A-A — Revealing the atrium void, floor-to-floor
+            heights, and structural system
+          </div>
+        </div>
+
+        <div class="grid-2" style="margin-bottom: 32px">
+          <div class="img-card arch">
+            <img
+              src="https://picsum.photos/seed/arkan-section-b/700/525.jpg"
+              alt="Section B-B"
+            />
+            <div class="img-label">Cross Section B-B — Laboratory Wing</div>
+          </div>
+          <div class="img-card arch">
+            <img
+              src="https://picsum.photos/seed/arkan-section-c/700/525.jpg"
+              alt="Section C-C"
+            />
+            <div class="img-label">Cross Section C-C — Public Wing</div>
+          </div>
+        </div>
+
+        <div class="grid-2">
+          <div class="img-card arch">
+            <img
+              src="https://picsum.photos/seed/arkan-elevation-south/700/525.jpg"
+              alt="South Elevation"
+            />
+            <div class="img-label">
+              Southern Elevation — Primary Façade with Brise-Soleil
+            </div>
+          </div>
+          <div class="img-card arch">
+            <img
+              src="https://picsum.photos/seed/arkan-elevation-north/700/525.jpg"
+              alt="North Elevation"
+            />
+            <div class="img-label">
+              Northern Elevation — Glazed Curtain Wall
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ==================== SLIDE 10: ARKAN FINAL RENDERS ==================== -->
+      <div class="slide slide-inner" data-slide="9">
+        <div class="slide-header">
+          <div class="slide-header-left">
+            <div class="label">Project 01 — Arkan Research Center</div>
+            <h2 class="section-title">Final Renders</h2>
+          </div>
+          <div class="slide-number">08</div>
+        </div>
+
+        <div class="render-full" style="margin-bottom: 28px">
+          <img
+            src="https://picsum.photos/seed/arkan-render-main/1400/500.jpg"
+            alt="Main Render"
+            style="aspect-ratio: 21/9"
+          />
+          <div class="render-overlay">
+            <h4>Main Entrance — Dusk View</h4>
+            <p>
+              The brise-soleil filters warm light into the lobby, establishing
+              the building's presence in the landscape
+            </p>
+          </div>
+        </div>
+
+        <div class="grid-3" style="margin-bottom: 28px">
+          <div class="img-card portrait">
+            <img
+              src="https://picsum.photos/seed/arkan-render-atrium/500/667.jpg"
+              alt="Atrium Render"
+            />
+            <div class="img-label">Central Atrium</div>
+          </div>
+          <div class="img-card portrait">
+            <img
+              src="https://picsum.photos/seed/arkan-render-lab/500/667.jpg"
+              alt="Laboratory Render"
+            />
+            <div class="img-label">Research Laboratory</div>
+          </div>
+          <div class="img-card portrait">
+            <img
+              src="https://picsum.photos/seed/arkan-render-terrace/500/667.jpg"
+              alt="Terrace Render"
+            />
+            <div class="img-label">Rooftop Terrace</div>
+          </div>
+        </div>
+
+        <div class="grid-2">
+          <div class="img-card wide">
+            <img
+              src="https://picsum.photos/seed/arkan-render-night/800/450.jpg"
+              alt="Night Render"
+            />
+            <div class="img-label">
+              Night View — Southern Façade Illuminated
+            </div>
+          </div>
+          <div class="img-card wide">
+            <img
+              src="https://picsum.photos/seed/arkan-render-garden/800/450.jpg"
+              alt="Garden Render"
+            />
+            <div class="img-label">Landscaped Court — Between the Wings</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ==================== SLIDE 11: PROJECT 2 DIVIDER ==================== -->
+      <div class="slide project-divider" data-slide="10">
+        <div class="label">Project 02</div>
+        <h1>Villa<br />Project</h1>
+        <div class="divider-line"></div>
+        <p>
+          A contemporary residential villa where refined minimalism meets the
+          warmth of natural materials and the poetry of controlled light
+        </p>
+      </div>
+
+      <!-- ==================== SLIDE 12: VILLA OVERVIEW ==================== -->
+      <div class="slide slide-inner" data-slide="11">
+        <div class="slide-header">
+          <div class="slide-header-left">
+            <div class="label">Project 02 — Villa Project</div>
+            <h2 class="section-title">Project Overview</h2>
+          </div>
+          <div class="slide-number">09</div>
+        </div>
+
+        <div class="stat-row">
+          <div class="stat-item">
+            <div class="stat-value">650</div>
+            <div class="stat-label">Built Area (m²)</div>
+          </div>
+          <div class="stat-item">
+            <div class="stat-value">2</div>
+            <div class="stat-label">Levels</div>
+          </div>
+          <div class="stat-item">
+            <div class="stat-value">Residential</div>
+            <div class="stat-label">Typology</div>
+          </div>
+          <div class="stat-item">
+            <div class="stat-value">2024</div>
+            <div class="stat-label">Design Year</div>
+          </div>
+        </div>
+
+        <div class="grid-2">
+          <div>
+            <div class="render-full" style="margin-bottom: 0">
+              <img
+                src="https://picsum.photos/seed/villa-exterior-main/1200/500.jpg"
+                alt="Villa Exterior"
+                style="aspect-ratio: 21/9"
+              />
+              <div class="render-overlay">
+                <h4>Street View — Northern Elevation</h4>
+                <p>A dialogue between mass and void</p>
+              </div>
+            </div>
+          </div>
+          <div>
+            <div class="concept-card">
+              <h3>Project Brief</h3>
+              <p>
+                The Villa Project is a contemporary private residence designed
+                for a family of five. Located on a 1,200 m² parcel within a
+                suburban residential district, the design brief called for a
+                home that balances privacy with openness, formality with
+                domestic warmth, and architectural ambition with everyday
+                livability.
+              </p>
+              <br />
+              <p>
+                The program includes formal and informal living areas, a kitchen
+                with ancillary spaces, five bedrooms with en-suite bathrooms, a
+                home office, a gym, and outdoor amenities including a pool and
+                landscaped garden. The design approach privileges spatial flow,
+                natural light, and a strong connection between interior and
+                exterior realms.
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ==================== SLIDE 13: VILLA CONCEPT ==================== -->
+      <div class="slide slide-inner" data-slide="12">
+        <div class="slide-header">
+          <div class="slide-header-left">
+            <div class="label">Project 02 — Villa Project</div>
+            <h2 class="section-title">Concept & Layout</h2>
+          </div>
+          <div class="slide-number">10</div>
+        </div>
+
+        <div class="grid-2" style="margin-bottom: 40px">
+          <div class="concept-card">
+            <h3>Design Concept</h3>
+            <p>
+              The design concept is rooted in the idea of "layered privacy" — a
+              spatial progression from the most public zone at the entrance to
+              the most private sanctuaries at the rear of the house. This
+              gradient is expressed architecturally through a series of
+              interlocking volumes that step down in height and shift in plan,
+              creating intimate courtyards and sheltered terraces at each
+              transition.
+            </p>
+            <br />
+            <p>
+              The material palette — board-formed concrete, warm timber, and
+              floor-to-ceiling glass — establishes a language of restrained
+              luxury. Each material is allowed to age naturally, deepening in
+              character over time and connecting the house to the passage of
+              seasons.
+            </p>
+          </div>
+          <div class="concept-card">
+            <h3>Spatial Layout (1:100)</h3>
+            <p>
+              The ground floor operates on an open-plan principle, with the
+              living, dining, and kitchen areas arranged in an L-shape around a
+              central courtyard. This courtyard, visible from all primary
+              spaces, serves as the visual and spiritual anchor of the house — a
+              meditative garden that brings light, air, and nature into the
+              daily experience of the occupants.
+            </p>
+            <br />
+            <p>
+              The upper floor is organized as a private wing, with bedrooms
+              accessed via a gallery overlooking the double-height living space
+              below. The master suite occupies the full width of the eastern
+              end, with a private terrace framing distant views.
+            </p>
+          </div>
+        </div>
+
+        <div class="grid-3">
+          <div class="img-card arch">
+            <img
+              src="https://picsum.photos/seed/villa-concept-diagram/600/450.jpg"
+              alt="Concept Diagram"
+            />
+            <div class="img-label">Layered Privacy — Concept Diagram</div>
+          </div>
+          <div class="img-card arch">
+            <img
+              src="https://picsum.photos/seed/villa-axo/600/450.jpg"
+              alt="Axonometric"
+            />
+            <div class="img-label">Exploded Axonometric — Volume Breakdown</div>
+          </div>
+          <div class="img-card arch">
+            <img
+              src="https://picsum.photos/seed/villa-sketch/600/450.jpg"
+              alt="Design Sketch"
+            />
+            <div class="img-label">Early Design Sketch — Massing Study</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ==================== SLIDE 14: VILLA TECHNICAL PLANS ==================== -->
+      <div class="slide slide-inner" data-slide="13">
+        <div class="slide-header">
+          <div class="slide-header-left">
+            <div class="label">Project 02 — Villa Project</div>
+            <h2 class="section-title">Technical Plans</h2>
+          </div>
+          <div class="slide-number">11</div>
+        </div>
+
+        <div class="grid-2" style="margin-bottom: 32px">
+          <div class="plan-card">
+            <div class="plan-img">
+              <img
+                src="https://picsum.photos/seed/villa-ground-plan/700/525.jpg"
+                alt="Ground Floor Plan"
+              />
+            </div>
+            <div class="plan-info">
+              <h5>Ground Floor Plan — Scale 1:100</h5>
+              <p>
+                Entrance foyer, formal living, family room, dining, kitchen,
+                guest bedroom, maid's room, and courtyard
+              </p>
+            </div>
+          </div>
+          <div class="plan-card">
+            <div class="plan-img">
+              <img
+                src="https://picsum.photos/seed/villa-first-plan/700/525.jpg"
+                alt="First Floor Plan"
+              />
+            </div>
+            <div class="plan-info">
+              <h5>First Floor Plan — Scale 1:100</h5>
+              <p>
+                Master suite with walk-in closet, three additional bedrooms,
+                gallery corridor, home office, and laundry
+              </p>
+            </div>
+          </div>
+        </div>
+
+        <div class="grid-2">
+          <div class="plan-card">
+            <div class="plan-img">
+              <img
+                src="https://picsum.photos/seed/villa-roof-plan/700/525.jpg"
+                alt="Roof Plan"
+              />
+            </div>
+            <div class="plan-info">
+              <h5>Roof Plan — Scale 1:100</h5>
+              <p>
+                Roof access, mechanical equipment layout, solar panel array, and
+                shaded terrace over master wing
+              </p>
+            </div>
+          </div>
+          <div class="plan-card">
+            <div class="plan-img">
+              <img
+                src="https://picsum.photos/seed/villa-site-plan/700/525.jpg"
+                alt="Site Plan"
+              />
+            </div>
+            <div class="plan-info">
+              <h5>Site & Landscape Plan — Scale 1:200</h5>
+              <p>
+                Property boundaries, vehicular access, pool, garden zones, and
+                hardscape layout
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ==================== SLIDE 15: VILLA ELEVATIONS & SECTIONS ==================== -->
+      <div class="slide slide-inner" data-slide="14">
+        <div class="slide-header">
+          <div class="slide-header-left">
+            <div class="label">Project 02 — Villa Project</div>
+            <h2 class="section-title">Elevations & Sections</h2>
+          </div>
+          <div class="slide-number">12</div>
+        </div>
+
+        <div class="img-card wide" style="margin-bottom: 32px">
+          <img
+            src="https://picsum.photos/seed/villa-elevation-main/1400/450.jpg"
+            alt="Elevations"
+            style="aspect-ratio: 21/9; object-fit: cover"
+          />
+          <div class="img-label">
+            Four Elevations — North, South, East, West — Scale 1:100
+          </div>
+        </div>
+
+        <div class="grid-2" style="margin-bottom: 32px">
+          <div class="img-card arch">
+            <img
+              src="https://picsum.photos/seed/villa-section-aa/700/525.jpg"
+              alt="Section A-A"
+            />
+            <div class="img-label">
+              Section A-A — Through Courtyard & Living
+            </div>
+          </div>
+          <div class="img-card arch">
+            <img
+              src="https://picsum.photos/seed/villa-section-bb/700/525.jpg"
+              alt="Section B-B"
+            />
+            <div class="img-label">Section B-B — Through Bedroom Wing</div>
+          </div>
+        </div>
+
+        <div class="grid-2">
+          <div class="img-card arch">
+            <img
+              src="https://picsum.photos/seed/villa-strip-section/700/525.jpg"
+              alt="Strip Section"
+            />
+            <div class="img-label">
+              Strip Section — Material Layering at External Wall
+            </div>
+          </div>
+          <div class="img-card arch">
+            <img
+              src="https://picsum.photos/seed/villa-strip-roof/700/525.jpg"
+              alt="Roof Strip Section"
+            />
+            <div class="img-label">
+              Strip Section — Roof Assembly & Parapet Detail
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ==================== SLIDE 16: VILLA DETAILS ==================== -->
+      <div class="slide slide-inner" data-slide="15">
+        <div class="slide-header">
+          <div class="slide-header-left">
+            <div class="label">Project 02 — Villa Project</div>
+            <h2 class="section-title">Construction Details</h2>
+          </div>
+          <div class="slide-number">13</div>
+        </div>
+
+        <div class="grid-4" style="margin-bottom: 32px">
+          <div class="plan-card">
+            <div class="plan-img" style="aspect-ratio: 1/1">
+              <img
+                src="https://picsum.photos/seed/villa-detail-window/400/400.jpg"
+                alt="Window Detail"
+              />
+            </div>
+            <div class="plan-info">
+              <h5>Window Head & Jamb</h5>
+              <p>Scale 1:5</p>
+            </div>
+          </div>
+          <div class="plan-card">
+            <div class="plan-img" style="aspect-ratio: 1/1">
+              <img
+                src="https://picsum.photos/seed/villa-detail-sill/400/400.jpg"
+                alt="Sill Detail"
+              />
+            </div>
+            <div class="plan-info">
+              <h5>Window Sill & Drainage</h5>
+              <p>Scale 1:5</p>
+            </div>
+          </div>
+          <div class="plan-card">
+            <div class="plan-img" style="aspect-ratio: 1/1">
+              <img
+                src="https://picsum.photos/seed/villa-detail-parapet/400/400.jpg"
+                alt="Parapet Detail"
+              />
+            </div>
+            <div class="plan-info">
+              <h5>Parapet Coping</h5>
+              <p>Scale 1:5</p>
+            </div>
+          </div>
+          <div class="plan-card">
+            <div class="plan-img" style="aspect-ratio: 1/1">
+              <img
+                src="https://picsum.photos/seed/villa-detail-floor/400/400.jpg"
+                alt="Floor Junction"
+              />
+            </div>
+            <div class="plan-info">
+              <h5>Floor-Wall Junction</h5>
+              <p>Scale 1:5</p>
+            </div>
+          </div>
+        </div>
+
+        <div class="grid-2">
+          <div class="concept-card">
+            <h3>Wall Assembly</h3>
+            <p>
+              The external wall system comprises 200mm board-formed concrete
+              with an internal layer of 50mm rigid insulation, a ventilated
+              cavity, and 12mm internal plaster finish. This assembly achieves a
+              U-value of 0.28 W/m²K, exceeding local energy code requirements.
+              The concrete formwork pattern is deliberately retained as a
+              finish, eliminating the need for additional cladding and reducing
+              material waste.
+            </p>
+          </div>
+          <div class="concept-card">
+            <h3>Glazing System</h3>
+            <p>
+              Floor-to-ceiling glazing employs triple-pane low-E units with
+              argon fill, achieving a U-value of 1.1 W/m²K and a solar heat gain
+              coefficient of 0.25. Frames are thermally broken aluminum in a
+              dark bronze anodized finish, selected for durability and minimal
+              visual weight. Motorized external blinds provide additional solar
+              control on western exposures.
+            </p>
+          </div>
+        </div>
+      </div>
+
+      <!-- ==================== SLIDE 17: VILLA FINAL RENDERS ==================== -->
+      <div class="slide slide-inner" data-slide="16">
+        <div class="slide-header">
+          <div class="slide-header-left">
+            <div class="label">Project 02 — Villa Project</div>
+            <h2 class="section-title">Final Renders</h2>
+          </div>
+          <div class="slide-number">14</div>
+        </div>
+
+        <div class="render-full" style="margin-bottom: 28px">
+          <img
+            src="https://picsum.photos/seed/villa-render-hero/1400/500.jpg"
+            alt="Villa Hero Render"
+            style="aspect-ratio: 21/9"
+          />
+          <div class="render-overlay">
+            <h4>Garden Elevation at Golden Hour</h4>
+            <p>
+              The interplay of concrete, timber, and glass in warm afternoon
+              light
+            </p>
+          </div>
+        </div>
+
+        <div class="grid-3" style="margin-bottom: 28px">
+          <div class="img-card portrait">
+            <img
+              src="https://picsum.photos/seed/villa-render-living/500/667.jpg"
+              alt="Living Room"
+            />
+            <div class="img-label">Double-Height Living Space</div>
+          </div>
+          <div class="img-card portrait">
+            <img
+              src="https://picsum.photos/seed/villa-render-courtyard/500/667.jpg"
+              alt="Courtyard"
+            />
+            <div class="img-label">Internal Courtyard View</div>
+          </div>
+          <div class="img-card portrait">
+            <img
+              src="https://picsum.photos/seed/villa-render-bedroom/500/667.jpg"
+              alt="Master Bedroom"
+            />
+            <div class="img-label">Master Suite — Morning Light</div>
+          </div>
+        </div>
+
+        <div class="grid-2">
+          <div class="img-card wide">
+            <img
+              src="https://picsum.photos/seed/villa-render-pool/800/450.jpg"
+              alt="Pool Area"
+            />
+            <div class="img-label">Pool & Terrace — Evening Atmosphere</div>
+          </div>
+          <div class="img-card wide">
+            <img
+              src="https://picsum.photos/seed/villa-render-kitchen/800/450.jpg"
+              alt="Kitchen"
+            />
+            <div class="img-label">
+              Kitchen & Dining — View Toward Courtyard
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ==================== SLIDE 18: CLOSING ==================== -->
+      <div
+        class="slide project-divider"
+        data-slide="17"
+        style="background: var(--beige-100)"
+      >
+        <div class="label" style="color: var(--text-light)">Thank You</div>
+        <h1 style="color: var(--brown-800)">Youmna Hesham</h1>
+        <div class="divider-line" style="background: var(--brown-400)"></div>
+        <p style="color: var(--text-secondary)">
+          Architecture is not merely the construction of shelter — it is the
+          thoughtful orchestration of space, light, and material to elevate the
+          human experience. Every project in this portfolio represents a
+          commitment to that belief.
+        </p>
+        <div
+          style="
+            margin-top: 40px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 12px;
+          "
+        >
+          <div
+            style="
+              font-size: 14px;
+              font-weight: 500;
+              color: var(--text-tertiary);
+              letter-spacing: 0.05em;
+            "
+          >
+            youmna.hesham@email.com
+          </div>
+          <div
+            style="
+              font-size: 14px;
+              font-weight: 500;
+              color: var(--text-tertiary);
+              letter-spacing: 0.05em;
+            "
+          >
+            +20 1XX XXX XXXX
+          </div>
+          <div
+            style="
+              font-size: 14px;
+              font-weight: 500;
+              color: var(--text-tertiary);
+              letter-spacing: 0.05em;
+            "
+          >
+            linkedin.com/in/youmnahesham
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- NAVIGATION BAR -->
+    <div class="nav-bar">
+      <div class="nav-left">
+        <button class="nav-btn" id="prevBtn" onclick="changeSlide(-1)">
+          <iconify-icon icon="lucide:chevron-left" width="18"></iconify-icon>
+        </button>
+        <button class="nav-btn" id="nextBtn" onclick="changeSlide(1)">
+          <iconify-icon icon="lucide:chevron-right" width="18"></iconify-icon>
+        </button>
+        <div class="slide-counter">
+          <span id="currentSlideNum">01</span> /
+          <span id="totalSlideNum">18</span>
+        </div>
+      </div>
+      <div class="nav-right" id="navDots"></div>
+    </div>
+
+    <div class="keyboard-hint">
+      <span class="key-icon">&larr;</span>
+      <span class="key-icon">&rarr;</span>
+      Navigate
+    </div>
+
+    <script>
+      let currentSlide = 0;
+      const slides = document.querySelectorAll(".slide");
+      const totalSlides = slides.length;
+
+      document.getElementById("totalSlideNum").textContent = String(
+        totalSlides,
+      ).padStart(2, "0");
+
+      const dotsContainer = document.getElementById("navDots");
+      for (let i = 0; i < totalSlides; i++) {
+        const dot = document.createElement("div");
+        dot.className = "nav-dot" + (i === 0 ? " active" : "");
+        dot.onclick = () => goToSlide(i);
+        dotsContainer.appendChild(dot);
+      }
+
+      function updateSlide() {
+        slides.forEach((s, i) => {
+          s.classList.toggle("active", i === currentSlide);
+        });
+        const dots = dotsContainer.querySelectorAll(".nav-dot");
+        dots.forEach((d, i) => {
+          d.classList.toggle("active", i === currentSlide);
+        });
+        document.getElementById("currentSlideNum").textContent = String(
+          currentSlide + 1,
+        ).padStart(2, "0");
+        document.getElementById("progressBar").style.width =
+          ((currentSlide + 1) / totalSlides) * 100 + "%";
+        slides[currentSlide].scrollTop = 0;
+      }
+
+      function changeSlide(dir) {
+        const newIndex = currentSlide + dir;
+        if (newIndex >= 0 && newIndex < totalSlides) {
+          currentSlide = newIndex;
+          updateSlide();
+        }
+      }
+
+      function goToSlide(index) {
+        currentSlide = index;
+        updateSlide();
+      }
+
+      document.addEventListener("keydown", (e) => {
+        if (e.key === "ArrowRight" || e.key === "ArrowDown") {
+          e.preventDefault();
+          changeSlide(1);
+        } else if (e.key === "ArrowLeft" || e.key === "ArrowUp") {
+          e.preventDefault();
+          changeSlide(-1);
+        }
+      });
+
+      let touchStartX = 0;
+      document.addEventListener(
+        "touchstart",
+        (e) => {
+          touchStartX = e.changedTouches[0].screenX;
+        },
+        { passive: true },
+      );
+
+      document.addEventListener(
+        "touchend",
+        (e) => {
+          const diff = touchStartX - e.changedTouches[0].screenX;
+          if (Math.abs(diff) > 60) {
+            if (diff > 0) changeSlide(1);
+            else changeSlide(-1);
+          }
+        },
+        { passive: true },
+      );
+
+      updateSlide();
+    </script>
+  </body>
+</html>
